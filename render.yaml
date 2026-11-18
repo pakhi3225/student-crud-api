@@ -1,0 +1,20 @@
+# Render Blueprint - deploys the API as a free Node web service.
+# NOTE: the free plan has an ephemeral filesystem, so SQLite data resets on redeploy/restart.
+# For persistent data use a paid plan + disk (see commented block) or switch to PostgreSQL.
+services:
+  - type: web
+    name: student-crud-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+    # --- Persistent storage (paid plans only) ---
+    # disk:
+    #   name: sqlite-data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    # and add envVar: DB_PATH=/var/data/students.db
